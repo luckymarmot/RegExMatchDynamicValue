@@ -1,18 +1,13 @@
 var RegExMatch = function() {
 	this.evaluate = function() {
-		var regex;
-		if (this.ignoreCase && this.multiline) {
-			regex = new RegExp(this.re, "gim");
-		}
-		else if (this.ignoreCase && !this.multiline) {
-			regex = new RegExp(this.re, "gi");
-		}
-		else if (!this.ignoreCase && this.multiline) {
-			regex = new RegExp(this.re, "gm");
-		}
-		else {
-			regex = new RegExp(this.re, "g");
-		}
+		
+		var flags = 'g';
+
+		flags += this.ignoreCase ? 'i' : '';
+		flags += this.multiline ? 'm' : '';
+
+		var regex = new RegExp(this.re, flags);
+
 
 		var m = regex.exec(this.input);
 		if(m != null) {
@@ -27,7 +22,6 @@ var RegExMatch = function() {
 			return "";
 		}
 	}
-		
 
 
 	this.text = function(context) {
@@ -44,7 +38,7 @@ RegExMatch.help = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 RegExMatch.inputs = [
 	InputField("re", "RegEx", "String"),
 	InputField("input", "Input", "String"),
-	InputField("ingnoreCase","ignore case", "Checkbox", {defaultValue: false}),
+	InputField("ignoreCase","ignore case", "Checkbox", {defaultValue: false}),
 	InputField("multiline","multiline", "Checkbox", {defaultValue: false})
 ]
 
